@@ -8,13 +8,13 @@ module.exports = function (grunt) {
     run: {
       install: {
         options: { cwd: 'build' },
-        exec: 'yarn install',
+        exec: 'npm install --omit=dev',
       },
       prettier: {
-        exec: 'yarn prettier',
+        exec: 'npm run prettier',
       },
       lint: {
-        exec: 'yarn lint',
+        exec: 'npm run lint',
       },
     },
     compress: {
@@ -56,8 +56,11 @@ module.exports = function (grunt) {
     fs.copyFileSync('./package.json', path.join(buildDir, 'package.json'));
   });
 
-  grunt.registerTask('copy yarn.lock', () => {
-    fs.copyFileSync('./yarn.lock', path.join(buildDir, 'yarn.lock'));
+  grunt.registerTask('copy package.lock', () => {
+    fs.copyFileSync(
+      './package-lock.json',
+      path.join(buildDir, 'package-lock.json'),
+    );
   });
 
   grunt.registerTask('default', [
@@ -66,7 +69,7 @@ module.exports = function (grunt) {
     'remove build folder',
     'create build folder',
     'copy package.json',
-    'copy yarn.lock',
+    'copy package.lock',
     'run:install',
     'compress',
     'remove build folder',
