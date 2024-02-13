@@ -22,6 +22,5 @@
     "grunt-contrib-compress": "^2.0.0",
     "grunt-run": "^0.8.1",
     "prettier": "^3.2.5"
-  },
-  "packageManager": "yarn@4.1.0"
+  }
 }
