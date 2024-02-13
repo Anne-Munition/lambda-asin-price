@@ -8,12 +8,18 @@ const commonParameters = {
   Marketplace: 'www.amazon.com',
 };
 
+const headers = {
+  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST',
+};
+
 async function handler(event) {
   const results = await getItems(JSON.parse(event.body));
 
   return {
     statusCode: 200,
-    headers: { 'Content-Type': 'application/json' },
+    headers,
     body: JSON.stringify(results),
   };
 }
@@ -34,7 +40,12 @@ function getItems(asins) {
     amazonPaapi.GetItems(commonParameters, requestParameters).then((data) => {
       const results = data.ItemsResult.Items.map((item) => {
         const asin = item.ASIN;
-        const price = item.Offers.Listings[0].Price.DisplayAmount;
+        let price;
+        try {
+          price = item.Offers.Listings[0].Price.DisplayAmount;
+        } catch (e) {
+          price = '???';
+        }
         return {
           asin,
           price,
