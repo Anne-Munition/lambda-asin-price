@@ -44,7 +44,7 @@ function getItems(asins) {
         try {
           price = item.Offers.Listings[0].Price.DisplayAmount;
         } catch (e) {
-          price = '???';
+          price = null;
         }
         return {
           asin,
